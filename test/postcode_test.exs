@@ -40,9 +40,7 @@ defmodule Fields.PostcodeTest do
   describe "load" do
     test "PostcodeEncrypted.load decrypts a value" do
       {:ok, ciphertext} = PostcodeEncrypted.dump("E2 0SY")
-      keys = Application.get_env(:fields, Fields.AES)[:keys]
-      key_id = Enum.count(keys) - 1
-      assert {:ok, "E2 0SY"} == PostcodeEncrypted.load(ciphertext, key_id)
+      assert {:ok, "E2 0SY"} == PostcodeEncrypted.load(ciphertext)
     end
 
     test "Postcode.load returns a string" do

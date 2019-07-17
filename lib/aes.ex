@@ -23,10 +23,10 @@ defmodule Fields.AES do
       iex> is_binary(ciphertext)
       true
   """
-  @spec encrypt(any, String.t() | nil) :: String.t
-  def encrypt(plaintext, key_id \\ nil) do
+  @spec encrypt(any) :: String.t
+  def encrypt(plaintext) do
     iv = :crypto.strong_rand_bytes(16) # create random Initialisation Vector
-    {ciphertext, tag} = :crypto.block_encrypt(:aes_gcm, get_key(key_id), iv, {@aad, to_string(plaintext), 16})
+    {ciphertext, tag} = :crypto.block_encrypt(:aes_gcm, get_key(), iv, {@aad, to_string(plaintext), 16})
     iv <> tag <> ciphertext # "return" iv with the cipher tag & ciphertext
   end
 
@@ -39,30 +39,14 @@ defmodule Fields.AES do
       iex> Fields.AES.encrypt("test") |> Fields.AES.decrypt()
       "test"
   """
-  @spec decrypt(any, String.t() | nil) :: String.t
-  def decrypt(ciphertext, key_id \\ nil) do
+  @spec decrypt(any) :: String.t
+  def decrypt(ciphertext) do
     <<iv::binary-16, tag::binary-16, ciphertext::binary>> = ciphertext
-    :crypto.block_decrypt(:aes_gcm, get_key(key_id), iv, {@aad, ciphertext, tag})
+    :crypto.block_decrypt(:aes_gcm, get_key(), iv, {@aad, ciphertext, tag})
   end
 
-  # @doc """
-  # get_key - Get encryption key from list of keys.
-  # if `key_id` is *not* supplied as argument,
-  # then the default *latest* encryption key will be returned.
-  # ## Parameters
-  # - `key_id`: the index of AES encryption key used to encrypt the ciphertext
-  # ## Example
-  #     iex> Fields.AES.get_key
-  #     <<13, 217, 61, 143, 87, 215, 35, 162, 183, 151, 179, 205, 37, 148>>
-  # """ # doc commented out because https://stackoverflow.com/q/45171024/1148249
-  @spec get_key(number | nil) :: String
-  defp get_key(nil) do
-    Application.get_env(:fields, Fields.AES)[:keys]
-    |> List.last()
-  end
-
-  defp get_key(key_id) do
-    keys = Application.get_env(:fields, Fields.AES)[:keys]
-    Enum.at(keys, key_id)
+  @spec get_key() :: String
+  defp get_key do
+    Application.get_env(:fields, Fields.AES)[:key]
   end
 end

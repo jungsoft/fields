@@ -54,9 +54,7 @@ defmodule Fields.EmailTest do
   describe "load" do
     test "EmailEncrypted.load decrypts a value" do
       {:ok, ciphertext} = EmailEncrypted.dump("test@test.com")
-      keys = Application.get_env(:fields, Fields.AES)[:keys]
-      key_id = Enum.count(keys) - 1
-      assert {:ok, "test@test.com"} == EmailEncrypted.load(ciphertext, key_id)
+      assert {:ok, "test@test.com"} == EmailEncrypted.load(ciphertext)
     end
 
     test "EmailHash.load does not modify the hash, since the hash cannot be reversed" do
