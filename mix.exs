@@ -5,7 +5,7 @@ defmodule Fields.MixProject do
     [
       app: :fields,
       version: "0.1.7",
-      elixir: "~> 1.7",
+      elixir: "~> 1.8",
       start_permanent: Mix.env() == :prod,
       deps: deps()
     ]
@@ -22,10 +22,8 @@ defmodule Fields.MixProject do
   defp deps do
     [
       {:argon2_elixir, "~> 1.2"},
-      {:ecto, "~> 2.2.10"},
-      {:html_sanitize_ex, "~> 1.3"},
-      {:stream_data, "~> 0.4.2", only: :test}
-      # {:dep_from_git, git: "https://github.com/elixir-lang/my_dep.git", tag: "0.1.0"},
+      {:ecto, "~> 3.0.9"},
+      {:stream_data, "~> 0.4.2", only: :test},
     ]
   end
 end

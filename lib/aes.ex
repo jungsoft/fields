@@ -6,46 +6,28 @@ defmodule Fields.AES do
   this makes "bruteforce" decryption much more difficult.
   See `encrypt/1` and `decrypt/1` for more details.
   """
-  # Use AES 256 Bit Keys for Encryption.
+  # Use AES 256 Bit Keys for AES.
   @aad "AES256GCM"
 
   @doc """
-  Encrypt Using AES Galois/Counter Mode (GCM)
-  https://en.wikipedia.org/wiki/Galois/Counter_Mode
   Uses a random IV for each call, and prepends the IV and Tag to the
   ciphertext.  This means that `encrypt/1` will never return the same ciphertext
   for the same value. This makes "cracking" (bruteforce decryption) much harder!
   ## Parameters
   - `plaintext`: Accepts any data type as all values are converted to a String
     using `to_string` before encryption.
-  - `key_id`: the index of the AES encryption key used to encrypt the ciphertext
   ## Examples
-      iex> Fields.AES.encrypt("tea", 1) != Fields.AES.encrypt("tea", 1)
+      iex> Fields.AES.encrypt("tea") != Fields.AES.encrypt("tea")
       true
-      iex> ciphertext = Fields.AES.encrypt(123, 1)
+      iex> ciphertext = Fields.AES.encrypt(123)
       iex> is_binary(ciphertext)
       true
   """
-  @spec encrypt(any) :: String.t()
-  def encrypt(plaintext) do
-    # create random Initialisation Vector
-    iv = :crypto.strong_rand_bytes(16)
-    # get the *latest* key in the list of encryption keys
-    key = get_key()
-    {ciphertext, tag} = :crypto.block_encrypt(:aes_gcm, key, iv, {@aad, to_string(plaintext), 16})
-    # "return" iv with the cipher tag & ciphertext
-    iv <> tag <> ciphertext
-  end
-
-  @spec encrypt(any, number) :: {String.t(), number}
-  def encrypt(plaintext, key_id) do
-    # create random Initialisation Vector
-    iv = :crypto.strong_rand_bytes(16)
-    # get *specific* key (by id) from list of keys.
-    key = get_key(key_id)
-    {ciphertext, tag} = :crypto.block_encrypt(:aes_gcm, key, iv, {@aad, to_string(plaintext), 16})
-    # "return" iv with the cipher tag & ciphertext
-    iv <> tag <> ciphertext
+  @spec encrypt(any, String.t() | nil) :: String.t
+  def encrypt(plaintext, key_id \\ nil) do
+    iv = :crypto.strong_rand_bytes(16) # create random Initialisation Vector
+    {ciphertext, tag} = :crypto.block_encrypt(:aes_gcm, get_key(key_id), iv, {@aad, to_string(plaintext), 16})
+    iv <> tag <> ciphertext # "return" iv with the cipher tag & ciphertext
   end
 
   @doc """
@@ -53,25 +35,14 @@ defmodule Fields.AES do
   ## Parameters
   - `ciphertext`: a binary to decrypt, assuming that the first 16 bytes of the
     binary are the IV to use for decryption.
-  - `key_id`: the index of the AES encryption key used to encrypt the ciphertext
   ## Example
-      iex> Fields.AES.encrypt("test") |> Fields.AES.decrypt(1)
+      iex> Fields.AES.encrypt("test") |> Fields.AES.decrypt()
       "test"
   """
-  @spec decrypt(String.t(), number) :: {String.t(), number}
-  # patern match on binary to split parts:
-  def decrypt(ciphertext, key_id) do
+  @spec decrypt(any, String.t() | nil) :: String.t
+  def decrypt(ciphertext, key_id \\ nil) do
     <<iv::binary-16, tag::binary-16, ciphertext::binary>> = ciphertext
-    # get encrytion/decryption key based on key_id
-    key = get_key(key_id)
-    :crypto.block_decrypt(:aes_gcm, key, iv, {@aad, ciphertext, tag})
-  end
-
-  # as above but *asumes* `default` (latest) encryption key is used.
-  @spec decrypt(any) :: String.t()
-  def decrypt(ciphertext) do
-    <<iv::binary-16, tag::binary-16, ciphertext::binary>> = ciphertext
-    :crypto.block_decrypt(:aes_gcm, get_key(), iv, {@aad, ciphertext, tag})
+    :crypto.block_decrypt(:aes_gcm, get_key(key_id), iv, {@aad, ciphertext, tag})
   end
 
   # @doc """
@@ -84,14 +55,12 @@ defmodule Fields.AES do
   #     iex> Fields.AES.get_key
   #     <<13, 217, 61, 143, 87, 215, 35, 162, 183, 151, 179, 205, 37, 148>>
   # """ # doc commented out because https://stackoverflow.com/q/45171024/1148249
-  @spec get_key() :: String
-  defp get_key do
-    keys = Application.get_env(:fields, Fields.AES)[:keys]
-    count = Enum.count(keys) - 1
-    get_key(count)
+  @spec get_key(number | nil) :: String
+  defp get_key(nil) do
+    Application.get_env(:fields, Fields.AES)[:keys]
+    |> List.last()
   end
 
-  @spec get_key(number) :: String
   defp get_key(key_id) do
     keys = Application.get_env(:fields, Fields.AES)[:keys]
     Enum.at(keys, key_id)
