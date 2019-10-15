@@ -22,7 +22,7 @@ defmodule Fields.MixProject do
   defp deps do
     [
       {:argon2_elixir, "~> 1.2"},
-      {:ecto, "~> 3.0.9"},
+      {:ecto, ">= 3.0.0"},
       {:stream_data, "~> 0.4.2", only: :test},
     ]
   end
