@@ -31,4 +31,8 @@ defmodule Fields.PhoneNumber do
   def load(value) do
     {:ok, value}
   end
+
+  def embed_as(_value), do: :dump
+
+  def equal?(a, b), do: a == b
 end

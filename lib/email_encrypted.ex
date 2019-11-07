@@ -19,4 +19,8 @@ defmodule Fields.EmailEncrypted do
   def dump(value), do: Encrypted.dump(value)
 
   def load(value), do: Encrypted.load(value)
+
+  def embed_as(_value), do: :dump
+
+  def equal?(a, b), do: a == b
 end
