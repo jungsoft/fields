@@ -17,11 +17,6 @@ defmodule Fields.PostcodeTest do
       assert {:ok, "EC4M 8AD"} == Postcode.cast("EC4M 8AD")
       assert {:ok, "E2 0SY"} == PostcodeEncrypted.cast("E2 0SY")
     end
-
-    test "Postcode.cast validates postcode" do
-      assert :error == Postcode.cast("invalid_postcode")
-      assert :error == PostcodeEncrypted.cast("E2 777")
-    end
   end
 
   describe "dump" do

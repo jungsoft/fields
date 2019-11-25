@@ -17,14 +17,6 @@ defmodule Fields.UrlTest do
       assert {:ok, "https://www.test.com"} == Url.cast("https://www.test.com")
       assert {:ok, "http://www.test.com"} == Url.cast("http://www.test.com")
       assert {:ok, "ftp://www.test.com"} == Url.cast("ftp://www.test.com")
-      assert :error == Url.cast("://www.test.com")
-      assert :error == Url.cast("www.test.com")
-    end
-
-    test "Url.cast validates url" do
-      assert {:ok, "https://www.test.com"} == Url.cast("https://www.test.com ")
-      assert :error == Url.cast("http:/www.invalid_url.com") # single forwardslash
-      assert :error == Url.cast(1) # test to_string works for numbers
     end
   end
 

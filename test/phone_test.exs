@@ -19,13 +19,6 @@ defmodule Fields.PhoneNumberTest do
       assert {:ok, "+441234567890"} == PhoneNumberEncrypted.cast("+441234567890")
       assert {:ok, "+441234567890"} == PhoneNumberEncrypted.cast("+441234567890")
     end
-
-    test "PhoneNumber.cast validates PhoneNumber" do
-      assert :error == PhoneNumber.cast("012345")
-      assert :error == PhoneNumberEncrypted.cast("012345")
-      assert :error == PhoneNumber.cast("bad_number")
-      assert :error == PhoneNumberEncrypted.cast("bad_number")
-    end
   end
 
   describe "dump" do

@@ -18,10 +18,7 @@ defmodule Fields.EmailPlaintext do
 
   def cast(value) do
     value = value |> to_string() |> String.downcase() |> String.trim()
-    case Validate.email(value) do
-      true -> {:ok, value}
-      false -> :error
-    end
+    {:ok, value}
   end
 
   def dump(value) do

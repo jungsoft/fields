@@ -17,10 +17,7 @@ defmodule Fields.Url do
 
   def cast(value) do
     value = value |> to_string() |> String.trim()
-    case Validate.url(value) do
-      true -> {:ok, value}
-      false -> :error
-    end
+    {:ok, value}
   end
 
   def dump(value) do

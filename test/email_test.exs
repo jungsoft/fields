@@ -23,12 +23,6 @@ defmodule Fields.EmailTest do
       assert {:ok, "test@test.com"} == EmailHash.cast("test@test.com")
     end
 
-    test "Email.cast validates email" do
-      assert :error == EmailPlaintext.cast("invalid_email")
-      assert :error == EmailEncrypted.cast("invalid_email")
-      assert :error == EmailHash.cast("invalid_email")
-    end
-
     test "Email.cast downcases and trims" do
       assert {:ok, "test@test.com"} == EmailPlaintext.cast(" tEst@tEst.cOm  ")
       assert {:ok, "test@test.com"} == EmailEncrypted.cast(" tEst@tEst.cOm  ")
