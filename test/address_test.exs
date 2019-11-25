@@ -18,11 +18,6 @@ defmodule Fields.AddressTest do
       assert {:ok, "123 Test St"} == Address.cast("    123 Test St    ")
       assert {:ok, "123 Test St"} == AddressEncrypted.cast("123 Test St")
     end
-
-    test "Address.cast validates Address" do
-      assert :error == Address.cast("")
-      assert :error == AddressEncrypted.cast("")
-    end
   end
 
   describe "dump" do
