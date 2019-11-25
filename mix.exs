@@ -4,7 +4,7 @@ defmodule Fields.MixProject do
   def project do
     [
       app: :fields,
-      version: "0.1.7",
+      version: "0.2.0",
       elixir: "~> 1.8",
       start_permanent: Mix.env() == :prod,
       deps: deps()
