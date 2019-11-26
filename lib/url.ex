@@ -9,7 +9,6 @@ defmodule Fields.Url do
         field(:url, Fields.Url)
       end
   """
-  alias Fields.Validate
 
   @behaviour Ecto.Type
 

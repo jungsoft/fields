@@ -10,7 +10,6 @@ defmodule Fields.PhoneNumber do
           field(:phone_number, Fields.PhoneNumber)
         end
   """
-  alias Fields.Validate
 
   @behaviour Ecto.Type
 
