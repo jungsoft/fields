@@ -10,7 +10,6 @@ defmodule Fields.Address do
           field(:address, Fields.Address)
         end
   """
-  alias Fields.Validate
 
   @behaviour Ecto.Type
 

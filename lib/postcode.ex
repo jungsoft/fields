@@ -9,7 +9,6 @@ defmodule Fields.Postcode do
         field(:postcode, Fields.Postcode)
       end
   """
-  alias Fields.Validate
 
   @behaviour Ecto.Type
 

@@ -10,7 +10,6 @@ defmodule Fields.EmailPlaintext do
           field(:email, Fields.EmailPlaintext)
         end
   """
-  alias Fields.Validate
 
   @behaviour Ecto.Type
 
