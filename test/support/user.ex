@@ -2,7 +2,7 @@ defmodule Fields.User do
   use Ecto.Schema
   import Ecto.Changeset
 
-  schema "users" do
+  embedded_schema do
     field :email, :string
     field :url, :string
     field :phone_number, :string

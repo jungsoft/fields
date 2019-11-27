@@ -50,5 +50,5 @@ defmodule Fields.EctoValidator do
   end
 
   defp valid?(nil, _validator), do: true
-  defp valid?(value, validator), do: apply(validator, [value])
+  defp valid?(value, validator), do: validator.(value)
 end
