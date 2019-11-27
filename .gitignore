@@ -25,3 +25,5 @@ fields-*.tar
 .env
 
 .elixir_ls
+
+/config/*.secret.exs
