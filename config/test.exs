@@ -17,4 +17,6 @@ poolsize: 10,
 # Ensure async testing is possible:
 pool: Ecto.Adapters.SQL.Sandbox
 
-import_config "db.secret.exs"
+if File.exists?("db.secret.exs") do
+  import_config "db.secret.exs"
+end

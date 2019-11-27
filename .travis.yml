@@ -1,6 +1,8 @@
 language: elixir
 elixir:
   - 1.8
+services:
+  - postgresql
 env:
   global:
     - MIX_ENV=test
