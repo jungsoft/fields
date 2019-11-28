@@ -4,12 +4,17 @@ defmodule Fields.MixProject do
   def project do
     [
       app: :fields,
-      version: "0.2.0",
+      version: "0.2.1",
       elixir: "~> 1.8",
       start_permanent: Mix.env() == :prod,
-      deps: deps()
+      deps: deps(),
+      elixirc_paths: elixirc_paths(Mix.env)
     ]
   end
+
+  def elixirc_paths(:test), do: ["lib", "test/support"]
+  def elixirc_paths(_), do: ["lib"]
+
 
   # Run "mix help compile.app" to learn about applications.
   def application do
