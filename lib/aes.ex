@@ -28,11 +28,16 @@ defmodule Fields.AES do
       iex> is_binary(ciphertext)
       true
   """
-  @spec encrypt(any) :: String.t
+  @spec encrypt(any) :: String.t()
   def encrypt(plaintext) do
-    iv = :crypto.strong_rand_bytes(16) # create random Initialisation Vector
-    {ciphertext, tag} = :crypto.crypto_one_time_aead(:aes_256_gcm, get_key(), iv, to_string(plaintext), @aad, true)
-    iv <> tag <> ciphertext # "return" iv with the cipher tag & ciphertext
+    # create random Initialisation Vector
+    iv = :crypto.strong_rand_bytes(16)
+
+    {ciphertext, tag} =
+      :crypto.crypto_one_time_aead(:aes_256_gcm, get_key(), iv, to_string(plaintext), @aad, true)
+
+    # "return" iv with the cipher tag & ciphertext
+    iv <> tag <> ciphertext
   end
 
   @doc """
@@ -46,7 +51,7 @@ defmodule Fields.AES do
       iex> Fields.AES.encrypt("test") |> Fields.AES.decrypt()
       "test"
   """
-  @spec decrypt(any) :: String.t
+  @spec decrypt(any) :: String.t()
   def decrypt(ciphertext) do
     <<iv::binary-16, tag::binary-16, ciphertext::binary>> = ciphertext
     :crypto.crypto_one_time_aead(:aes_256_gcm, get_key(), iv, ciphertext, @aad, tag, false)
