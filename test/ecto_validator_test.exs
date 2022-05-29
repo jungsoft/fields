@@ -1,5 +1,5 @@
 defmodule Fields.EctoValidatorTest do
-  use ExUnit.Case
+  use ExUnit.Case, async: true
 
   alias Fields.EctoValidator
 

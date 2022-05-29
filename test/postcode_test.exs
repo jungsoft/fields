@@ -1,5 +1,5 @@
 defmodule Fields.PostcodeTest do
-  use ExUnit.Case
+  use ExUnit.Case, async: true
   alias Fields.{Postcode, PostcodeEncrypted}
 
   describe "types" do

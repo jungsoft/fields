@@ -1,5 +1,5 @@
 defmodule Fields.EncryptedTest do
-  use ExUnit.Case
+  use ExUnit.Case, async: true
   alias Fields.Encrypted
 
   test ".type is :binary" do

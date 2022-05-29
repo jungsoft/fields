@@ -5,10 +5,10 @@ defmodule Fields.MixProject do
     [
       app: :fields,
       version: "0.2.1",
-      elixir: "~> 1.8",
+      elixir: "~> 1.11",
       start_permanent: Mix.env() == :prod,
       deps: deps(),
-      elixirc_paths: elixirc_paths(Mix.env)
+      elixirc_paths: elixirc_paths(Mix.env())
     ]
   end
 
@@ -26,9 +26,9 @@ defmodule Fields.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      {:argon2_elixir, "~> 2.0"},
+      {:argon2_elixir, "~> 3.0"},
       {:ecto, ">= 3.0.0"},
-      {:stream_data, "~> 0.4.2", only: :test},
+      {:stream_data, "~> 0.5.0", only: :test},
     ]
   end
 end
