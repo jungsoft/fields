@@ -1,5 +1,5 @@
 defmodule Fields.EmailTest do
-  use ExUnit.Case
+  use ExUnit.Case, async: true
   alias Fields.{EmailPlaintext, EmailHash, EmailEncrypted}
 
   describe "types" do

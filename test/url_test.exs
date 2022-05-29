@@ -1,5 +1,5 @@
 defmodule Fields.UrlTest do
-  use ExUnit.Case
+  use ExUnit.Case, async: true
   alias Fields.{Url}
 
   describe "types" do
